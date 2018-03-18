@@ -108,7 +108,7 @@ public class Tokens {
         return (name.getIndex() > maxKey) ? TokenKind.IDENTIFIER : key[name.getIndex()];
     }
 
-    static String mapCNKeyWord(String name) {
+    String mapCNKeyWord(String name) {
         String s = name;
         switch (name) {
             case "\u62bd\u8c61": s = "abstract"; break;
@@ -164,24 +164,20 @@ public class Tokens {
             case "\u771f": s = "true"; break;
             case "\u5047": s = "false"; break;
             case "\u7a7a\u503c": s = "null"; break;
-            case "\u5b57\u7b26\u4e32": s = "String"; break;
-            case "\u7cfb\u7edf": s = "System"; break;
-            case "\u51fa": s = "out"; break;
-            case "\u6253\u5370\u4e00\u884c": s = "println"; break;
             default:
                 break;
         }
         return s;
     }
 
-    static Name mapCNKeyWord(Name name) {
+    Name mapCNKeyWord(Name name) {
         String s = mapCNKeyWord(name.toString());
         return names.fromString(s);
     }
 
 
     TokenKind lookupKind(String name) {
-        return lookupKind(mapCNKeyWord(name));
+        return lookupKind(names.fromString(mapCNKeyWord(name)));
     }
 
     /**
@@ -494,7 +490,7 @@ public class Tokens {
 
         public NamedToken(TokenKind kind, int pos, int endPos, Name name, List<Comment> comments) {
             super(kind, pos, endPos, comments);
-            this.name = Tokens.mapCNKeyWord(name);
+            this.name = name;
         }
 
         protected void checkKind() {
